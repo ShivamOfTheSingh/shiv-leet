@@ -23,10 +23,15 @@ clean_url = re.split('&', raw_url, 1)[0]
 # Creates a file with the respective problem name
 f = open(n + '.py', 'w')
 f.write('# ' + title + '\n')
-f.write('# Link: ' + clean_url + '\n')
-f.close()
+f.write('# Link: ' + clean_url + '\n\n')
 
 # Opens the leetcode link
 problem_url = requests.get(clean_url).text
 soup = BeautifulSoup(problem_url, 'lxml')
-
+desc = soup.find_all('div', class_='_1l1MA')
+f.write("'''\n")
+# Fills the file with the problem description
+for p in desc:
+    f.write(p.text)
+f.write("\n'''")
+f.close()
